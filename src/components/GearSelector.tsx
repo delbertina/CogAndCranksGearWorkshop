@@ -1,26 +1,13 @@
 import { Trash2, ArrowRight } from "lucide-react"
+import { AVAILABLE_GEARS, type AvailableGear } from "../lib/consts"
 
-export const AVAILABLE_GEARS = [
-  { teeth: 8,  radius: 28, label: "8T",  color: "#e07b39" },
-  { teeth: 12, radius: 36, label: "12T", color: "#e07b39" },
-  { teeth: 16, radius: 44, label: "16T", color: "#e07b39" },
-  { teeth: 20, radius: 52, label: "20T", color: "#e07b39" },
-  { teeth: 24, radius: 60, label: "24T", color: "#e07b39" },
-  { teeth: 32, radius: 72, label: "32T", color: "#e07b39" },
-  { teeth: 40, radius: 84, label: "40T", color: "#e07b39" },
-  { teeth: 48, radius: 96, label: "48T", color: "#e07b39" },
-] as const
-
-export type AvailableGear = (typeof AVAILABLE_GEARS)[number]
 
 interface GearSelectorProps {
   chain: AvailableGear[]
   onChange: (chain: AvailableGear[]) => void
-  driverTeeth: number
-  outputTeeth: number
 }
 
-export default function GearSelector({ chain, onChange, driverTeeth, outputTeeth }: GearSelectorProps) {
+export default function GearSelector({ chain, onChange }: GearSelectorProps) {
   const addGear = (gear: AvailableGear) => {
     onChange([...chain, gear])
   }
@@ -37,7 +24,7 @@ export default function GearSelector({ chain, onChange, driverTeeth, outputTeeth
       <div>
         <div className="flex items-center gap-2 flex-wrap min-h-14 bg-muted/40 rounded-xl px-4 py-3 border border-border">
           {/* Driver (fixed) */}
-          <GearChip teeth={driverTeeth} color="#2d7a9e" label="Driver" fixed />
+          <GearChip color="#2d7a9e" label="Driver" fixed />
 
           {chain.length === 0 && (
             <span className="text-xs text-muted-foreground italic px-2">
@@ -49,7 +36,6 @@ export default function GearSelector({ chain, onChange, driverTeeth, outputTeeth
             <div key={i} className="flex items-center gap-1">
               <ArrowIcon />
               <GearChip
-                teeth={g.teeth}
                 color={g.color}
                 label={g.label}
                 onRemove={() => removeGear(i)}
@@ -60,7 +46,7 @@ export default function GearSelector({ chain, onChange, driverTeeth, outputTeeth
           {/* Output (fixed) */}
           <div className="flex items-center gap-1">
             <ArrowIcon />
-            <GearChip teeth={outputTeeth} color="#2d7a9e" label="Output" fixed />
+            <GearChip color="#2d7a9e" label="Output" fixed />
           </div>
         </div>
       </div>
@@ -109,14 +95,13 @@ function ArrowIcon() {
 }
 
 interface GearChipProps {
-  teeth: number
   color: string
   label: string
   fixed?: boolean
   onRemove?: () => void
 }
 
-function GearChip({ teeth, color, label, fixed, onRemove }: GearChipProps) {
+function GearChip({ color, label, fixed, onRemove }: GearChipProps) {
   return (
     <div
       className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border shrink-0"

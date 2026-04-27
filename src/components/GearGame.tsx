@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from "react"
 import { Info, RefreshCw, CheckCircle2 } from "lucide-react"
-import GearSelector, { AVAILABLE_GEARS, type AvailableGear } from "./GearSelector"
+import GearSelector from "./GearSelector"
+import { AVAILABLE_GEARS, type AvailableGear } from "../lib/consts"
 import InfoModal from "./InfoModal"
 import GearCanvas from "./GearCanvas"
 
@@ -144,7 +145,7 @@ export default function GearGame() {
           </div>
 
           {/* Gear visualisation */}
-          <div className="bg-card border border-border rounded-2xl p-4 overflow-hidden min-h-[320px]">
+          <div className="bg-card border border-border rounded-2xl p-4 overflow-hidden min-h-80">
             <GearCanvas gears={allGears} inputRpm={puzzle.inputRpm} solved={solved} />
           </div>
 
@@ -153,8 +154,6 @@ export default function GearGame() {
             <GearSelector
               chain={chain}
               onChange={setChain}
-              driverTeeth={puzzle.driverTeeth}
-              outputTeeth={puzzle.outputTeeth}
             />
           </div>
         </main>
